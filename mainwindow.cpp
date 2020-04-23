@@ -48,22 +48,21 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::openImagesFolder() {
   QFileDialog fd(this);
   QString imageFolderDir = fd.getExistingDirectory(this, ("Open Folder"));
-  std::vector<QString> images;
+  std::vector<ImagesPanelItem> images;
   QDirIterator dirIt(imageFolderDir);
   while (dirIt.hasNext()) {
+    ImagesPanelItem newItem;
     dirIt.next();
-    if (QFileInfo(dirIt.filePath()).suffix() == "png") {
-      images.push_back(dirIt.filePath());
-    } else if (QFileInfo(dirIt.filePath()).suffix() == "jpg") {
-      images.push_back(dirIt.filePath());
+    if ((QFileInfo(dirIt.filePath()).suffix() == "png") || (QFileInfo(dirIt.filePath()).suffix() == "jpg")) {
+      newItem.name = dirIt.fileName();
+      newItem.imageDir = dirIt.filePath();
+      images.push_back(newItem);
     }
   }
   ui->listWidget->clear();
-  for (QString path : images) {
-    QListWidgetItem *item = new QListWidgetItem(QIcon(path), "name");
-    item->setData(1, path);
-    item->setText("lol");
-    ui->listWidget->addItem(item);
+  for (ImagesPanelItem item : images) {
+    QListWidgetItem *img = new QListWidgetItem(QIcon(item.imageDir), item.name);
+    ui->listWidget->addItem(img);
   }
   settings->setValue("imagesFolder", imageFolderDir);
 }
@@ -190,7 +189,7 @@ void MainWindow::setShapeEllip() {
   ui->pent->setEnabled(true);
 }
 void MainWindow::onListWidgetItemClicked(QListWidgetItem *i) {
-  QString path = i->data(1).toString();
+    QString path = settings->value("imagesFolder", "").toString() + '\\' + i->data(0).toString();
   std::cout << path.toStdString() << std::endl;
   currentImagepath = path;
   currentImage->setDir(currentImagepath.toStdString());

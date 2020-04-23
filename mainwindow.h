@@ -29,6 +29,10 @@ class MainWindow : public QMainWindow {
 public:
   explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
+    struct ImagesPanelItem {
+        QString name;
+        QString imageDir;
+    };
 
 private:
   Ui::MainWindow *ui;

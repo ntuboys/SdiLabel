@@ -91,9 +91,6 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="viewMode">
-           <enum>QListView::IconMode</enum>
-          </property>
          </widget>
         </item>
        </layout>
@@ -142,7 +139,7 @@
      <x>0</x>
      <y>0</y>
      <width>828</width>
-     <height>30</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
