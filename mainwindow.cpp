@@ -81,7 +81,7 @@ void MainWindow::openClasses() {
       }
       QTextStream in(&fs);
       while (!in.atEnd()) {
-        classes.push_back(in.readLine());
+        classes.add(in.readLine().toStdString());
       }
       fs.close();
     }
@@ -97,8 +97,8 @@ void MainWindow::saveClasses() {
   std::ofstream fs(settings->value("classFile").toString().toStdString(),
                    std::ofstream::trunc | std::ofstream::out);
   if (fs.is_open()) {
-    for (QString c : classes) {
-      fs << c.toStdString() << '\n';
+    for (std::string c : *classes.getAll()) {
+      fs << c << '\n';
     }
   }
 }
@@ -221,7 +221,7 @@ bool MainWindow::loadClasses() {
     }
     QTextStream in(&cFile);
     while (!in.atEnd()) {
-      classes.push_back(in.readLine());
+      classes.add(in.readLine().toStdString());
     }
     cFile.close();
     return true;
@@ -246,10 +246,10 @@ void MainWindow::updateLabels() {
 void MainWindow::updateClassList() {
   // loadClasses();
   ui->classesComboBox->clear();
-  QString classname;
-  foreach (classname, classes) {
+  std::string classname;
+  foreach (classname, *classes.getAll()) {
     if (classname != "")
-      ui->classesComboBox->addItem(classname);
+      ui->classesComboBox->addItem(QString::fromUtf8(classname.c_str()));
   }
   if (!classes.empty()) {
     ui->classesComboBox->setEnabled(true);
@@ -262,14 +262,9 @@ void MainWindow::updateClassList() {
 }
 void MainWindow::addClass() {
   QString new_class = ui->newClassText->text();
-  bool alreadyIn = false;
   std::cout << "addnig classs" << new_class.toStdString() << std::endl;
-  for (QString c : classes) {
-    if (c == new_class)
-      alreadyIn = true;
-  }
-  if (new_class.simplified() != "" && !alreadyIn) {
-    classes.push_back(new_class.simplified());
+  if (new_class.simplified() != "" && (classes.find(new_class.toStdString()) == -1)) {
+    classes.add(new_class.simplified().toStdString());
     ui->newClassText->clear();
     updateClassList();
     setCurrentClass(new_class.simplified());
@@ -310,19 +305,6 @@ void MainWindow::updateLabel(const BoundingBox &old_bbox,
   removeLabel(old_bbox);
   addLabel(new_bbox);
   updateLabels();
-}
-void MainWindow::removeClass() {
-  if (QMessageBox::Yes ==
-      QMessageBox::question(
-          this, tr("Remove Class"),
-          QString("Really delete all \"%1\" labels from your entire dataset?")
-              .arg(current_class))) {
-    ;
-    classes.erase(std::remove(classes.begin(), classes.end(), current_class),
-                  classes.end());
-    updateClassList();
-    updateDisplay();
-  }
 }
 void MainWindow::initDisplay() {
   display->clearPixmap();

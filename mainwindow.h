@@ -1,5 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include "linkedlist.h"
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QFileDialog>
@@ -38,7 +39,7 @@ private:
   int current_index;
   void initDisplay();
   std::vector<image> images;
-  std::vector<QString> classes;
+  LinkedList classes;
   std::vector<BoundingBox> bboxes;
   QString currentImagepath;
   QString current_class;
@@ -61,7 +62,6 @@ private slots:
   void updateDisplay(void);
   void addClass(void);
   void setCurrentClass(const QString &);
-  void removeClass(void);
   void addLabel(const BoundingBox &bbox);
   void removeLabel(const BoundingBox &bbox);
   void updateLabel(const BoundingBox &old_bbox, const BoundingBox &new_bbox);

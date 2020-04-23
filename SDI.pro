@@ -19,6 +19,7 @@ SOURCES += \
     imagedisplay.cpp \
     labels.cpp \
     fileio.cpp \
+    linkedlist.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -26,6 +27,7 @@ HEADERS += \
     BoundingBox.h \
     imagedisplay.h \
     labels.h \
+    linkedlist.h \
     fileio.h \
     mainwindow.h
 
