@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>828</width>
+    <height>621</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,0,0">
+    <item>
+     <layout class="QVBoxLayout" name="tools">
+      <item>
+       <layout class="QVBoxLayout" name="modes">
+        <item>
+         <widget class="QPushButton" name="select">
+          <property name="text">
+           <string>Select</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="draw">
+          <property name="text">
+           <string>Draw</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="shapes">
+        <item row="1" column="0">
+         <widget class="QPushButton" name="ellip">
+          <property name="text">
+           <string>Ellipsis</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="tri">
+          <property name="text">
+           <string>Triangle</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QPushButton" name="pent">
+          <property name="text">
+           <string>Pentagon</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QPushButton" name="octa">
+          <property name="text">
+           <string>Octagon</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QPushButton" name="rect">
+          <property name="text">
+           <string>Rect</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="main"/>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="browser">
+      <item>
+       <layout class="QGridLayout" name="images">
+        <item row="0" column="0">
+         <widget class="QListWidget" name="listWidget">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="viewMode">
+           <enum>QListView::IconMode</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="classes">
+        <item row="3" column="0">
+         <widget class="QPushButton" name="addClass">
+          <property name="text">
+           <string>Add Class</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QComboBox" name="classesComboBox"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLineEdit" name="newClassText">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>test</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="removeClass">
+          <property name="text">
+           <string>PushButton</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>828</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen_Images_Folder"/>
+    <addaction name="actionOpen_Annotations"/>
+    <addaction name="actionOpen_Class_File"/>
+    <addaction name="actionSave_Annotations"/>
+    <addaction name="actionSave_Class_File"/>
+   </widget>
+   <addaction name="menuFile"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionSave_Annotations">
+   <property name="text">
+    <string>Save Annotations</string>
+   </property>
+  </action>
+  <action name="actionSave_Class_File">
+   <property name="text">
+    <string>Save Class File</string>
+   </property>
+  </action>
+  <action name="actionOpen_Annotations">
+   <property name="text">
+    <string>Open Annotations</string>
+   </property>
+  </action>
+  <action name="actionOpen_Class_File">
+   <property name="text">
+    <string>Open Class File</string>
+   </property>
+  </action>
+  <action name="actionOpen_Images_Folder">
+   <property name="text">
+    <string>Open Images Folder</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
