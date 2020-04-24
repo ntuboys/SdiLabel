@@ -4,12 +4,10 @@ bool Files::loadLabels(const std::string fileName,
                        std::vector<BoundingBox> &bboxes) {
   std::ifstream fs(fileName);
   if (!fs.is_open()) {
-    std::cout << "error opening file to load" << std::endl;
     fs.close();
     return false;
   }
   if (!readLabels(fs, bboxes)) {
-    std::cout << "error reading file to load" << std::endl;
     fs.close();
     return false;
   }
@@ -18,15 +16,12 @@ bool Files::loadLabels(const std::string fileName,
 }
 bool Files::saveLabels(const std::string fileName,
                        std::vector<BoundingBox> bboxes) {
-  std::cout << "saving to " << fileName << std::endl;
   std::ofstream fs(fileName, std::ofstream::out | std::ofstream::trunc);
   if (!fs.is_open()) {
-    std::cout << "error opening file to save" << std::endl;
     fs.close();
     return false;
   }
   if (!writeLabels(fs, bboxes)) {
-    std::cout << "error write file to save" << std::endl;
     fs.close();
     return false;
   }
@@ -37,9 +32,7 @@ bool Files::readLabels(std::ifstream &fs, std::vector<BoundingBox> &labels) {
   try {
     json j;
     fs >> j;
-    std::cout << j << std::endl;
     for (json ele : j["bboxes"]) {
-      std::cout << ele << std::endl;
       json points = ele["points"];
       std::vector<QPointF> pointVec;
       for (json point : points) {
@@ -61,7 +54,6 @@ bool Files::readLabels(std::ifstream &fs, std::vector<BoundingBox> &labels) {
       });
     }
   } catch (std::exception &err) {
-    std::cout << err.what() << std::endl;
     return false;
   }
   return true;

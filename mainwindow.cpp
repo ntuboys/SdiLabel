@@ -85,7 +85,6 @@ void MainWindow::openClasses() {
       fs.close();
     }
   } else {
-    std::cout << "creating new classes file" << std::endl;
     fs.open(QIODevice::ReadWrite);
     fs.close();
   }
@@ -116,7 +115,6 @@ void MainWindow::openLabels() {
       return;
     }
   } else {
-    std::cout << "creating new labels file" << std::endl;
     fs.open(QIODevice::ReadWrite);
     fs.close();
   }
@@ -127,9 +125,9 @@ void MainWindow::saveLabels() {
   std::string file =
       settings->value("labelsFile", QDir::homePath()).toString().toStdString();
   if (project->saveLabels(file, bboxes)) {
-    std::cout << "saved" << std::endl;
+
   } else {
-    std::cout << "error saviong" << std::endl;
+
   }
 }
 // ui->rect->setEnabled(false);
@@ -140,7 +138,6 @@ void MainWindow::saveLabels() {
 // ui->pent->setEnabled(false);
 void MainWindow::setShapeTri() {
   myShape shape = TRIANGLE;
-  std::cout << "setting shape to " << shape;
   currentImage->setShape(shape);
   ui->rect->setEnabled(true);
   ui->ellip->setEnabled(true);
@@ -150,7 +147,6 @@ void MainWindow::setShapeTri() {
 }
 void MainWindow::setShapePent() {
   myShape shape = PENTAGON;
-  std::cout << "setting shape to " << shape;
   currentImage->setShape(shape);
   ui->rect->setEnabled(true);
   ui->ellip->setEnabled(true);
@@ -160,7 +156,6 @@ void MainWindow::setShapePent() {
 }
 void MainWindow::setShapeOcta() {
   myShape shape = OCTAGON;
-  std::cout << "setting shape to " << shape;
   currentImage->setShape(shape);
   ui->rect->setEnabled(true);
   ui->ellip->setEnabled(true);
@@ -170,7 +165,6 @@ void MainWindow::setShapeOcta() {
 }
 void MainWindow::setShapeRect() {
   myShape shape = RECTANGLE;
-  std::cout << "setting shape to " << shape;
   currentImage->setShape(shape);
   ui->rect->setEnabled(false);
   ui->ellip->setEnabled(true);
@@ -180,7 +174,6 @@ void MainWindow::setShapeRect() {
 }
 void MainWindow::setShapeEllip() {
   myShape shape = ELLIPSE;
-  std::cout << "setting shape to " << shape;
   currentImage->setShape(shape);
   ui->rect->setEnabled(true);
   ui->ellip->setEnabled(false);
@@ -190,7 +183,6 @@ void MainWindow::setShapeEllip() {
 }
 void MainWindow::onListWidgetItemClicked(QListWidgetItem *i) {
     QString path = settings->value("imagesFolder", "").toString() + '\\' + i->data(0).toString();
-  std::cout << path.toStdString() << std::endl;
   currentImagepath = path;
   currentImage->setDir(currentImagepath.toStdString());
   updateDisplay();
@@ -234,8 +226,6 @@ void MainWindow::updateLabels() {
   // project->getLabels(currentImagepath, bboxes);
   std::vector<BoundingBox> temp;
   for (BoundingBox bb : bboxes) {
-    std::cout << "curimgpath: " << currentImagepath.toStdString() << std::endl;
-    std::cout << "bbimgpath: " << bb.imgPath << std::endl;
     if (bb.imgPath == currentImagepath.toStdString()) {
       temp.push_back(bb);
     }
@@ -261,7 +251,6 @@ void MainWindow::updateClassList() {
 }
 void MainWindow::addClass() {
   QString new_class = ui->newClassText->text();
-  std::cout << "addnig classs" << new_class.toStdString() << std::endl;
   if (new_class.simplified() != "" && (classes.find(new_class.toStdString()) == -1)) {
     classes.add(new_class.simplified().toStdString());
     ui->newClassText->clear();

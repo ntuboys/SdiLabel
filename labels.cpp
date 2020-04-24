@@ -168,7 +168,9 @@ void Labels::drawBoundingBox(const BoundingBox &bbox, const QColor &colour) {
     break;
   default:
     QPointF arr[bbox.points.size()];
-    std::copy(bbox.points.begin(), bbox.points.end(), arr);
+    for(int i = 0 ; i < bbox.points.size(); i++){
+        arr[i] = bbox.points[i] * scaleFactor;
+    }
     painter.drawPolygon(arr, bbox.points.size());
     break;
   }
@@ -182,7 +184,6 @@ void Labels::setBoundingBoxes(std::vector<BoundingBox> input_bboxes) {
   drawLabel();
 }
 void Labels::setClassname(const QString &classname) {
-  std::cout << "setting classname to " << classname.toStdString() << std::endl;
   curClass = classname;
   if (selectedBb.classname == "")
     return;
@@ -285,7 +286,6 @@ void Labels::keyPressEvent(QKeyEvent *event) {
     if (rubberBand->width() > 0 && rubberBand->height() > 0) {
       if (curClass == "") {
         // make this into a pop up error
-        std::cout << "no class" << std::endl;
       } else {
         QRect bbox_rect;
         bbox_rect = QRect(bbOrigin, bbFinal);
