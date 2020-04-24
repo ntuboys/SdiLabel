@@ -108,6 +108,8 @@ void LinkedList::sort() {
           list[i] = right;
           list[i + 1] = left;
           break;
+        } else {
+          break;
         }
       }
     }
