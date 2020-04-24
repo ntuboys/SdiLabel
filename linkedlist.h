@@ -13,6 +13,7 @@ private:
 public:
   LinkedList();
   ~LinkedList();
+  LinkedList &operator=(const LinkedList &);
   void add(std::string);
   std::string pop();
   bool empty();
@@ -20,4 +21,5 @@ public:
   int length();
   std::vector<std::string> *getAll();
   int find(std::string);
+  void sort();
 };

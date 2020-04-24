@@ -13,6 +13,11 @@ LinkedList::~LinkedList() {
   }
 }
 
+LinkedList &LinkedList::operator=(const LinkedList &list) {
+  head = list.head;
+  return *this;
+}
+
 // add new string
 void LinkedList::add(std::string val) {
   Node *n = new Node();
@@ -21,7 +26,7 @@ void LinkedList::add(std::string val) {
   head = n;
 }
 
-// remove first element and return it 
+// remove first element and return it
 std::string LinkedList::pop() {
   Node *n = head;
   std::string ret = n->data;
@@ -35,6 +40,7 @@ bool LinkedList::empty() { return !head; }
 
 // removes all elements from the list
 void LinkedList::clear() {
+  std::cout << "clear!" << std::endl;
   Node *next = head;
   while (next) {
     Node *deleteMe = next;
@@ -68,6 +74,53 @@ std::vector<std::string> *LinkedList::getAll() {
     }
   }
   return ret;
+}
+
+void LinkedList::sort() {
+  std::vector<std::string> list;
+
+  if (head) {
+    Node *next = head;
+    while (next) {
+      list.push_back(next->data);
+      next = next->next;
+    }
+  }
+
+  if (list.empty()) {
+    return;
+  }
+
+  bool changed;
+  do {
+    changed = false;
+    for (int i = 0; i < list.size() - 1; i++) {
+      std::string left = list[i];
+      std::string right = list[i + 1];
+      int length =
+          (left.length() > right.length() ? right.length() : left.length());
+
+      for (int j = 0; j < length - 1; j++) {
+        if (left[j] == right[j])
+          continue;
+        if (left[j] > right[j]) {
+          changed = true;
+          std::string temp;
+          list[i] = right;
+          list[i + 1] = left;
+          break;
+        }
+      }
+    }
+  } while (changed);
+
+  clear();
+
+  for (int i = list.size(); i-- != 0;) {
+    add(list[i]);
+  }
+
+  return;
 }
 
 // returns index of the first occurance of passed string
