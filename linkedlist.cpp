@@ -40,7 +40,6 @@ bool LinkedList::empty() { return !head; }
 
 // removes all elements from the list
 void LinkedList::clear() {
-  std::cout << "clear!" << std::endl;
   Node *next = head;
   while (next) {
     Node *deleteMe = next;
