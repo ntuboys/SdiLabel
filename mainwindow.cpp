@@ -53,7 +53,8 @@ void MainWindow::openImagesFolder() {
   while (dirIt.hasNext()) {
     ImagesPanelItem newItem;
     dirIt.next();
-    if ((QFileInfo(dirIt.filePath()).suffix() == "png") || (QFileInfo(dirIt.filePath()).suffix() == "jpg")) {
+    if ((QFileInfo(dirIt.filePath()).suffix() == "png") ||
+        (QFileInfo(dirIt.filePath()).suffix() == "jpg")) {
       newItem.name = dirIt.fileName();
       newItem.imageDir = dirIt.filePath();
       images.push_back(newItem);
@@ -127,7 +128,6 @@ void MainWindow::saveLabels() {
   if (project->saveLabels(file, bboxes)) {
 
   } else {
-
   }
 }
 // ui->rect->setEnabled(false);
@@ -182,7 +182,8 @@ void MainWindow::setShapeEllip() {
   ui->pent->setEnabled(true);
 }
 void MainWindow::onListWidgetItemClicked(QListWidgetItem *i) {
-    QString path = settings->value("imagesFolder", "").toString() + '\\' + i->data(0).toString();
+  QString path = settings->value("imagesFolder", "").toString() + '\\' +
+                 i->data(0).toString();
   currentImagepath = path;
   currentImage->setDir(currentImagepath.toStdString());
   updateDisplay();
@@ -191,8 +192,8 @@ void MainWindow::setCurrentClass(const QString &name) {
   if (ui->classesComboBox->currentText() != name) {
     ui->classesComboBox->setCurrentText(name);
   }
-  current_class = name;
-  emit selectedClass(current_class);
+  curClass = name;
+  emit selectedClass(curClass);
 }
 void MainWindow::setDrawMode() {
   ui->draw->setEnabled(false);
@@ -223,7 +224,6 @@ bool MainWindow::loadClasses() {
   }
 }
 void MainWindow::updateLabels() {
-  // project->getLabels(currentImagepath, bboxes);
   std::vector<BoundingBox> temp;
   for (BoundingBox bb : bboxes) {
     if (bb.imgPath == currentImagepath.toStdString()) {
@@ -233,7 +233,6 @@ void MainWindow::updateLabels() {
   currentImage->setBoundingBoxes(temp);
 }
 void MainWindow::updateClassList() {
-  // loadClasses();
   ui->classesComboBox->clear();
   std::string classname;
   foreach (classname, *classes.getAll()) {
@@ -251,7 +250,8 @@ void MainWindow::updateClassList() {
 }
 void MainWindow::addClass() {
   QString new_class = ui->newClassText->text();
-  if (new_class.simplified() != "" && (classes.find(new_class.toStdString()) == -1)) {
+  if (new_class.simplified() != "" &&
+      (classes.find(new_class.toStdString()) == -1)) {
     classes.add(new_class.simplified().toStdString());
     ui->newClassText->clear();
     updateClassList();
@@ -259,13 +259,11 @@ void MainWindow::addClass() {
   }
 }
 void MainWindow::addLabel(const BoundingBox &bbox) {
-  // project->addLabel(currentImagepath, bbox);
   if (bbox.classname != "")
     bboxes.push_back(bbox);
   updateLabels();
 }
 void MainWindow::removeLabel(const BoundingBox &bbox) {
-  // project->removeLabel(currentImagepath, bbox);
   if (!bboxes.empty())
     for (int i = 0; i < bboxes.size(); i++) {
       BoundingBox box = bboxes[i];
@@ -280,29 +278,20 @@ void MainWindow::removeImageLabels() {
   if (QMessageBox::Yes ==
       QMessageBox::question(this, tr("rem all labels"), QString("you sure?"))) {
     ;
-    // project->removeLabels(currentImagepath);
     bboxes.clear();
     updateLabels();
     updateDisplay();
   }
 }
-void MainWindow::updateLabel(const BoundingBox &old_bbox,
-                             const BoundingBox &new_bbox) {
-  // project->removeLabel(currentImagepath, old_bbox);
-  // project->addLabel(currentImagepath, new_bbox);
-  removeLabel(old_bbox);
-  addLabel(new_bbox);
+void MainWindow::updateLabel(const BoundingBox &oldBbox,
+                             const BoundingBox &newBbox) {
+  removeLabel(oldBbox);
+  addLabel(newBbox);
   updateLabels();
 }
 void MainWindow::initDisplay() {
   display->clearPixmap();
-  // update image list
   updateClassList();
-  current_index = 0;
-  updateDisplay();
-}
-void MainWindow::updateCurrentIndex(int index) {
-  current_index = index;
   updateDisplay();
 }
 void MainWindow::updateDisplay() {

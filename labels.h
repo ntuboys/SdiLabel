@@ -9,13 +9,13 @@
 #include <QRubberBand>
 #include <opencv2/opencv.hpp>
 enum drawState {
-  WAIT_START,
-  DRAWING_BBOX,
+  WAITING,
+  DRAWING,
 };
 enum interactionState {
-  MODE_DRAW,
-  MODE_DRAW_DRAG,
-  MODE_SELECT,
+  DRAW,
+  DRAW_DRAG,
+  SELECTION,
 };
 class Labels : public QLabel {
   Q_OBJECT
@@ -65,12 +65,12 @@ private:
   void drawBoundingBox(const BoundingBox &bbox);
   void drawBoundingBox(const BoundingBox &bbox, const QColor &colour);
   void drawLabel(QPoint location = QPoint());
-  QPoint getScaledImageLocation(QPoint location);
+  QPoint getScaledImageLocation(QPoint loc);
   QPixmap scalePixmap(void);
   QRect clip(QRect bbox);
   QPainter *painter;
-  drawState bbState = WAIT_START;
-  interactionState curMode = MODE_DRAW;
+  drawState bbState = WAITING;
+  interactionState curMode = DRAW;
   QPoint bbOrigin, bbFinal;
   QRubberBand *rubberBand;
   int bbWidth = 0;

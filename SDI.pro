@@ -42,13 +42,13 @@ unix {
     LIBS += -L/usr/local/lib -L/usr/include/ -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_imgcodecs
 }
 win32 {
-    INCLUDEPATH += C:\opencv\build\include
-    LIBS += C:\libs\opencv\bin\libopencv_core430.dll
-    LIBS += C:\libs\opencv\bin\libopencv_highgui430.dll
-    LIBS += C:\libs\opencv\bin\libopencv_imgcodecs430.dll
-    LIBS += C:\libs\opencv\bin\libopencv_imgproc430.dll
-    LIBS += C:\libs\opencv\bin\libopencv_features2d430.dll
-    LIBS += C:\libs\opencv\bin\libopencv_calib3d430.dll
+    INCLUDEPATH += D:\opencv\build\include
+    LIBS += D:\opencv_build\bin\libopencv_core430.dll
+    LIBS += D:\opencv_build\bin\libopencv_highgui430.dll
+    LIBS += D:\opencv_build\bin\libopencv_imgcodecs430.dll
+    LIBS += D:\opencv_build\bin\libopencv_imgproc430.dll
+    LIBS += D:\opencv_build\bin\libopencv_features2d430.dll
+    LIBS += D:\opencv_build\bin\libopencv_calib3d430.dll
 }
 target.path = /tmp/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target

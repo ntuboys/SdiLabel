@@ -29,10 +29,10 @@ class MainWindow : public QMainWindow {
 public:
   explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
-    struct ImagesPanelItem {
-        QString name;
-        QString imageDir;
-    };
+  struct ImagesPanelItem {
+    QString name;
+    QString imageDir;
+  };
 
 private:
   Ui::MainWindow *ui;
@@ -40,14 +40,12 @@ private:
   Labels *currentImage;
   QScrollArea *imageScrollArea;
   ImageDisplay *display;
-  int current_index;
   void initDisplay();
   std::vector<image> images;
   LinkedList classes;
   std::vector<BoundingBox> bboxes;
   QString currentImagepath;
-  QString current_class;
-  int number_images;
+  QString curClass;
   void updateClassList();
   void updateLabels();
   bool loadClasses();
@@ -68,11 +66,10 @@ private slots:
   void setCurrentClass(const QString &);
   void addLabel(const BoundingBox &bbox);
   void removeLabel(const BoundingBox &bbox);
-  void updateLabel(const BoundingBox &old_bbox, const BoundingBox &new_bbox);
+  void updateLabel(const BoundingBox &oldBbox, const BoundingBox &newBbox);
   void removeImageLabels(void);
   void setDrawMode(void);
   void setSelectMode(void);
-  void updateCurrentIndex(int index);
   void onListWidgetItemClicked(QListWidgetItem *);
 signals:
   void selectedClass(QString);

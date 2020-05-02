@@ -61,51 +61,51 @@ QPixmap Labels::scalePixmap(void) {
   return scaledPixmap;
 }
 void Labels::setDrawMode() {
-  curMode = MODE_DRAW;
+  curMode = DRAW;
   setCursor(Qt::CrossCursor);
   rubberBand->setGeometry(QRect(bbOrigin, QSize()));
   rubberBand->show();
 }
 void Labels::setDrawDragMode() {
-  curMode = MODE_DRAW_DRAG;
+  curMode = DRAW_DRAG;
   rubberBand->setGeometry(QRect(bbOrigin, QSize()));
   rubberBand->show();
 }
 void Labels::setSelectMode() {
-  curMode = MODE_SELECT;
+  curMode = SELECTION;
   setCursor(Qt::ArrowCursor);
   rubberBand->hide();
 }
-QPoint Labels::getScaledImageLocation(QPoint location) {
-  QPoint scaled_location = location;
+QPoint Labels::getScaledImageLocation(QPoint loc) {
+  QPoint scaledLoc = loc;
   if (scaleFactor != 1.0) {
-    scaled_location.setX(scaled_location.x() - (width() - scaledWidth) / 2);
-    scaled_location.setY(scaled_location.y() - (height() - scaledHeight) / 2);
-    scaled_location.setX(static_cast<int>(scaled_location.x() / scaleFactor));
-    scaled_location.setY(static_cast<int>(scaled_location.y() / scaleFactor));
+    scaledLoc.setX(scaledLoc.x() - (width() - scaledWidth) / 2);
+    scaledLoc.setY(scaledLoc.y() - (height() - scaledHeight) / 2);
+    scaledLoc.setX(static_cast<int>(scaledLoc.x() / scaleFactor));
+    scaledLoc.setY(static_cast<int>(scaledLoc.y() / scaleFactor));
   }
-  return scaled_location;
+  return scaledLoc;
 }
 void Labels::mousePressEvent(QMouseEvent *ev) {
   if (basePixmap.isNull())
     return;
-  QPoint image_location = ev->pos();
-  if (curMode == MODE_SELECT && ev->button() == Qt::LeftButton) {
-    drawLabel(getScaledImageLocation(image_location));
-  } else if (curMode == MODE_DRAW && ev->button() == Qt::LeftButton) {
-    if (bbState == WAIT_START) {
-      bbOrigin = image_location;
+  QPoint imgLoc = ev->pos();
+  if (curMode == SELECTION && ev->button() == Qt::LeftButton) {
+    drawLabel(getScaledImageLocation(imgLoc));
+  } else if (curMode == DRAW && ev->button() == Qt::LeftButton) {
+    if (bbState == WAITING) {
+      bbOrigin = imgLoc;
       rubberBand->setGeometry(QRect(bbOrigin, QSize()));
       rubberBand->show();
-      bbState = DRAWING_BBOX;
-    } else if (bbState == DRAWING_BBOX) {
-      bbFinal = image_location;
+      bbState = DRAWING;
+    } else if (bbState == DRAWING) {
+      bbFinal = imgLoc;
       QRect bbox(bbOrigin, bbFinal);
       bbox = clip(bbox.normalized());
       bbOrigin = bbox.topLeft();
       bbFinal = bbox.bottomRight();
       rubberBand->setGeometry(bbox);
-      bbState = WAIT_START;
+      bbState = WAITING;
     }
   }
 }
@@ -118,21 +118,11 @@ QRect Labels::clip(QRect bbox) {
   bbox.setBottom(std::min(height() - ypad, bbox.bottom()));
   return bbox;
 }
-void Labels::mouseReleaseEvent(QMouseEvent *ev) {
-  /*if(curMode == MODE_DRAW_DRAG){
-      bbFinal = ev->pos();
-      QRect bbox(bbOrigin, bbFinal);
-      rubberBand->setGeometry(clip(bbox.normalized()));
-      bbState = WAIT_START;
-  }else{
-      ev->ignore();
-  }*/
-  ev->ignore();
-}
+void Labels::mouseReleaseEvent(QMouseEvent *ev) { ev->ignore(); }
 void Labels::mouseMoveEvent(QMouseEvent *ev) {
   if (basePixmap.isNull())
     return;
-  if (bbState == DRAWING_BBOX && curMode == MODE_DRAW) {
+  if (bbState == DRAWING && curMode == DRAW) {
     QRect bbox = QRect(bbOrigin, ev->pos()).normalized();
     rubberBand->setGeometry(bbox);
   }
@@ -155,9 +145,6 @@ void Labels::drawBoundingBox(const BoundingBox &bbox, const QColor &colour) {
   scaled_bbox.setTop(static_cast<int>(scaled_bbox.top() * scaleFactor));
   scaled_bbox.setBottom(static_cast<int>(scaled_bbox.bottom() * scaleFactor));
   if (bbox.classname != "") {
-    // painter.fillRect(QRect(scaled_bbox.bottomLeft(),
-    // scaled_bbox.bottomRight()+QPoint(0,-10)).normalized(),
-    // QBrush(Qt::white));
     painter.setFont(QFont("Helvetica", 10));
     painter.drawText(scaled_bbox.bottomLeft(),
                      QString::fromStdString(bbox.classname));
@@ -168,8 +155,8 @@ void Labels::drawBoundingBox(const BoundingBox &bbox, const QColor &colour) {
     break;
   default:
     QPointF arr[bbox.points.size()];
-    for(int i = 0 ; i < bbox.points.size(); i++){
-        arr[i] = bbox.points[i] * scaleFactor;
+    for (int i = 0; i < bbox.points.size(); i++) {
+      arr[i] = bbox.points[i] * scaleFactor;
     }
     painter.drawPolygon(arr, bbox.points.size());
     break;
@@ -281,8 +268,8 @@ void Labels::keyPressEvent(QKeyEvent *event) {
     emit removeLabel(selectedBb);
   } else if (event->key() == Qt::Key_Escape) {
     rubberBand->setGeometry(QRect(bbOrigin, QSize()));
-    bbState = WAIT_START;
-  } else if (event->key() == Qt::Key_Space && bbState == WAIT_START) {
+    bbState = WAITING;
+  } else if (event->key() == Qt::Key_Space && bbState == WAITING) {
     if (rubberBand->width() > 0 && rubberBand->height() > 0) {
       if (curClass == "") {
         // make this into a pop up error

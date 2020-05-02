@@ -81,9 +81,9 @@ void ImageDisplay::loadPixmap() {
   emit image_loaded();
 }
 void ImageDisplay::setColourMap(const QString &map) {
-  auto map_str = map.toStdString();
-  if (colourHashmap.count(map_str)) {
-    colourMap = colourHashmap[map_str];
+  auto mapStr = map.toStdString();
+  if (colourHashmap.count(mapStr)) {
+    colourMap = colourHashmap[mapStr];
     loadPixmap();
   }
 }
