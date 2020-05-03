@@ -64,7 +64,7 @@ private:
   BoundingBox selectedBb;
   void drawBoundingBox(const BoundingBox &bbox);
   void drawBoundingBox(const BoundingBox &bbox, const QColor &colour);
-  void drawLabel(QPoint location = QPoint());
+  void drawLabel(QPoint location = QPoint(), bool moving = false);
   QPoint getScaledImageLocation(QPoint loc);
   QPixmap scalePixmap(void);
   QRect clip(QRect bbox);
@@ -82,5 +82,7 @@ private:
   myShape curShape = RECTANGLE;
   int polyPoints = -1;
   void drawBoundingBoxes(QPoint location);
+  bool moving = false;
+  QPoint lastPos;
 };
 #endif // IMAGELABEL_H
