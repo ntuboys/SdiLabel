@@ -6,9 +6,10 @@ namespace Tests {
 // testing linked list fuctionality
 bool linkedList() {
   LinkedList list;
-  list.add("first");  // add elements
+  list.add("first"); // add elements
   list.add("second");
-  if (!(list.pop() == "second") || !(list.pop() == "first")) {  // check if they were actually aded
+  if (!(list.pop() == "second") ||
+      !(list.pop() == "first")) { // check if they were actually aded
     return false;
   }
   return true;
@@ -16,9 +17,10 @@ bool linkedList() {
 // testing the search algorithm
 bool searchAlgorithm() {
   LinkedList list;
-  list.add("first");  // add elements
+  list.add("first"); // add elements
   list.add("second");
-  if (!(list.find("first") == 1)) { // see if the returned value is what was expected
+  if (!(list.find("first") ==
+        1)) { // see if the returned value is what was expected
     return false;
   }
   return true;
@@ -26,7 +28,7 @@ bool searchAlgorithm() {
 // sorting algorithm test
 bool sortAlgorithm() {
   LinkedList list;
-  list.add("first");  // add elements
+  list.add("first"); // add elements
   list.add("second");
   list.sort();
   if (!(list.find("first") == 0)) { // see if the elements are in expected order
@@ -39,14 +41,16 @@ bool intTest() {
   bool passed = true;
   LinkedList list;
 
-  list.add("first");  // add elements
+  list.add("first"); // add elements
   list.add("second");
-  if (!(list.pop() == "second") || !(list.pop() == "first")) { // check if they were actually aded
+  if (!(list.pop() == "second") ||
+      !(list.pop() == "first")) { // check if they were actually aded
     passed = false;
   }
   list.add("first");
   list.add("second");
-  if (!(list.find("first") == 1)) { // see if the returned value is what was expected
+  if (!(list.find("first") ==
+        1)) { // see if the returned value is what was expected
     passed = false;
   }
   list.sort();

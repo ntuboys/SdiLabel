@@ -120,8 +120,10 @@ QRect Labels::clip(QRect bbox) {
   bbox.setBottom(std::min(height() - ypad, bbox.bottom()));
   return bbox;
 }
-void Labels::mouseReleaseEvent(QMouseEvent *ev) { ev->ignore();
-                                                  moving = false; }
+void Labels::mouseReleaseEvent(QMouseEvent *ev) {
+  ev->ignore();
+  moving = false;
+}
 void Labels::mouseMoveEvent(QMouseEvent *ev) {
   if (basePixmap.isNull())
     return;
@@ -130,18 +132,19 @@ void Labels::mouseMoveEvent(QMouseEvent *ev) {
     rubberBand->setGeometry(bbox);
   }
 
-  if(curMode == SELECTION && moving && selectedBb.classname != ""){
+  if (curMode == SELECTION && moving && selectedBb.classname != "") {
     // move
     int xDiff = (ev->pos() - lastPos).x();
     int yDiff = (ev->pos() - lastPos).y();
     QPoint diff = QPoint(xDiff, yDiff);
-    selectedBb.rect.setTopLeft(QPoint(selectedBb.rect.topLeft()+diff));
-    selectedBb.rect.setBottomRight(QPoint(selectedBb.rect.bottomRight()+diff));
-    for(QPointF point : selectedBb.points) {
-        point.setX(point.x()+xDiff);
-        point.setY(point.y()+yDiff);
+    selectedBb.rect.setTopLeft(QPoint(selectedBb.rect.topLeft() + diff));
+    selectedBb.rect.setBottomRight(
+        QPoint(selectedBb.rect.bottomRight() + diff));
+    for (QPointF point : selectedBb.points) {
+      point.setX(point.x() + xDiff);
+      point.setY(point.y() + yDiff);
     }
-    std::cout<<"moving!"<<std::endl;
+    std::cout << "moving!" << std::endl;
     lastPos = ev->pos();
     drawLabel(QPoint(), true);
   }
@@ -211,21 +214,21 @@ void Labels::drawLabel(QPoint location, bool moving) {
   if (scaleFactor == 1.0) {
     scaledPixmap = basePixmap;
   }
-  if(moving) {
+  if (moving) {
     drawBoundingBox(selectedBb, Qt::green);
   } else {
-      BoundingBox bbox;
-      selectedBb = BoundingBox();
-      foreach (bbox, bboxes) {
-        if (bbox.rect.contains(location)) {
-          drawBoundingBox(bbox, Qt::green);
-          selectedBb = bbox;
-          emit setCurrentClass(QString::fromStdString(selectedBb.classname));
-        } else {
-          drawBoundingBox(bbox);
-        }
+    BoundingBox bbox;
+    selectedBb = BoundingBox();
+    foreach (bbox, bboxes) {
+      if (bbox.rect.contains(location)) {
+        drawBoundingBox(bbox, Qt::green);
+        selectedBb = bbox;
+        emit setCurrentClass(QString::fromStdString(selectedBb.classname));
+      } else {
+        drawBoundingBox(bbox);
       }
     }
+  }
   QLabel::setPixmap(scaledPixmap);
 }
 void Labels::addLabel(QRect rect, QString classname) {
